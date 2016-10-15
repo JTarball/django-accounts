@@ -1,0 +1,31 @@
+Django==1.8.6
+djangorestframework
+python-dateutil
+markdown2
+beautifulsoup4
+Pygments
+
+
+# Django test supports
+# ====================
+tox
+django_dynamic_fixture
+django_nose
+pytest
+pytest-django
+pytest-xdist
+pytest-coverage
+nose-progressive
+responses>=0.4.0
+
+
+# Django docs supports
+# ====================
+sphinx
+recommonmark
+sphinx-git
+sphinx_rtd_theme
+
+# django-accounts specific packages
+# =============================
+# Add here ...
