@@ -1,0 +1,32 @@
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}{% autoescape off %}
+
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+    Hello from {{ site_name }}!
+
+    You're receiving this e-mail because user {{ user_display }} at {{ site_domain }} has given yours as an e-mail address to connect their account.
+
+    To confirm this is correct, go to {{ activate_url }}
+    {% endblocktrans %}{% endautoescape %}
+    {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Thank you from {{ site_name }}!
+    {{ site_domain }}
+{% endblocktrans %}
+
+<html lang="en-GB">
+    <head>
+        {% load static from staticfiles %}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Forbidden</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <link href="{% static "api.css" %}" rel="stylesheet" type="text/css" />
+    </head>
+    <body class="error403">
+        <div class="main-container">
+            <h1>403</h1>
+            <h2>forbidden</h2>
+            <div class="return"><a href="/">return to tetherbox</a><div>
+        </div>
+    </body>
+</html>

@@ -1,6 +1,21 @@
+#!/usr/bin/env python
+"""
+   tests.settings
+   ==============
+
+   Django settings for running tests
+
+"""
+import os
+
 from django.conf.global_settings import *
 
-DEBUG = False
+# Some Basic Variables
+# ============================================================================
+PROJECT_ROOT = os.path.dirname(os.path.realpath(os.path.dirname(__file__)))
+
+
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 TIME_ZONE = 'UTC'
@@ -13,7 +28,18 @@ SECRET_KEY = 'local'
 
 ROOT_URLCONF = 'tests.urls'
 
-AUTH_USER_MODEL = 'tests.AccountsUser'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#AUTH_USER_MODEL = 'tests.AccountsUser'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+STATIC_URL = '/static'
 
 DATABASES = {
     'default': {
@@ -58,6 +84,10 @@ DJANGO_APPS = (
 THIRD_PATH_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    #'allauth.socialaccount.providers.google',
 )
 
 LOCAL_APPS = (
@@ -66,6 +96,76 @@ LOCAL_APPS = (
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PATH_APPS + LOCAL_APPS
+
+# -------------------------------------------------------------------------- #
+# django_accounts
+# -------------------------------------------------------------------------- #
+# Actually from django.contrib.auth  (AUTHENTICATION)
+# LOGIN_URL = '/accounts/auth/login/'
+# LOGIN_REDIRECT_URL = '/accounts/auth/login/'  # (global_settings.py)  '/users/profile/' - - default
+LOGIN_REDIRECT_URL = '/docs/'
+# One-week activation window; you may, of course, use a different value.
+ACCOUNT_ACTIVATION_DAYS = 7
+
+#REGISTRATION_OPEN = True
+
+
+# http://django-allauth.readthedocs.org/en/latest/configuration.html
+# Note if you change e.g. ACCOUNT_UNIQUE_EMAIL you may need to delete db before changes work
+
+# Changing these could cause tests to fail
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
+# Note if set to true - tests will fail as we need to recreate db every test
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_ADAPTER = "django_accounts.adapter.DefaultAccountAdapter"
+
+AUTH_USER_MODEL = 'django_accounts.AccountsUser'
+REGISTRATION_OPEN = True
+
+
+AUTHENTICATION_BACKENDS = (
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+# -------------------------------------------------------------------------- #
+# Templating
+# -------------------------------------------------------------------------- #
+# If you are running Django 1.8+, specify the context processors
+# as follows:
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(PROJECT_ROOT, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Already defined Django-related contexts here
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request',
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
+
+            ],
+            'debug': True,
+        },
+    },
+]
+
 
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
@@ -102,7 +202,7 @@ LOGGING = {
             'class': 'django.utils.log.NullHandler',
         },
         'console': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },

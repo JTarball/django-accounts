@@ -7,31 +7,33 @@
 
 """
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
-from blog.models import Example
+from accounts.models import AccountsUser
+#from .forms import AccountsUserCreationForm, AccountsUserChangeForm
 
 
-class AccountsAdmin(admin.ModelAdmin):
-    # Display on Accounts App Admin list page
-    # ===================================
-    # list_display = ["title", "updated_at", "published"]
-    # list_editable = ["published"]  # editable on the list page
-    # list_filter = ["published", "updated_at", "author"]  # which filter should appear on list page.
-    # For filtering/searching admin list page.
-    # list_display_links = ["title"]  # which fields should link to 'change' page
-    # Set date_hierarchy to the name of a DateField or DateTimeField in your model,
-    # and the change list page will include a date-based drilldown navigation by that field.
-    # date_hierarchy = "created_at"
-    # Set search_fields to enable a search box on the admin change list page.
-    # This should be set to a list of field names that will be searched whenever
-    # somebody submits a search query in that text box.
-    # search_fields = ["title", "content"]
-    # Accounts App Admin App page
-    # =======================
-    # Set prepopulated_fields to a dictionary mapping field names to the fields it should prepopulate from
-    # prepopulated_fields = {"slug": ("title",)}
-    # Changes the 'add' or 'change' forms - e.g. if you want a simple add post in the admin
-    # fields = ("published", "slug")
-    pass
+class AccountsUserAdmin(UserAdmin):
+    # The fields to be used in displaying the User model.
+    # These override the definitions on the base UserAdmin
+    # that reference specific fields on auth.User.
+    list_display = ('username', 'email', 'is_staff', 'first_name', 'last_name')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    search_fields = ('email', 'username')
+    ordering = ('email',)
+    filter_horizontal = ('groups', 'user_permissions',)
+    #fieldsets = (
+    #  (None, {'fields': ('email', 'password')}),
+    #  ('Personal info', {'fields': ('first_name', 'last_name')}),
+    #  ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups.', 'user_permissions')}),
+    #  ('Important dates', {'fields': ('last_login',)}),
+    #)
+    #add_fieldsets = (
+    #  (None, {
+    #      'classes': ('wide',),
+    #      'fields': ('email', 'password1', 'password2')}
+    #),)
 
-admin.site.register(Example, AccountsAdmin)
+# Register the user forms to django admin for super-duper editing
+admin.site.register(AccountsUser, AccountsUserAdmin)
+

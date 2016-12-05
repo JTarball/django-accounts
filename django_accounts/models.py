@@ -6,77 +6,53 @@
 
 """
 import logging
-import datetime
-from dateutil import relativedelta
 
-from django.contrib.auth import get_user_model
 from django.db import models
-from django.template.defaultfilters import slugify
-
-from utils import toTimeAgo
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import AbstractUser
 
 
 # Get instance of logger
 logger = logging.getLogger('__name__')
 
 
-class ExampleManager(models.Manager):
-    use_for_related_fields = True
-
-    def live(self):
-        """ Returns all published blog articles. """
-        return self.model.objects.filter(published=True)
-
-    def by_year(self, year):
-        return self.model.objects.filter(updated_at__year=year)
-
-    def live_by_year(self, year):
-        return self.model.objects.filter(updated_at__year=year, published=True)
-
-    def by_tag(self, tag):
-        return self.model.objects.filter(tags__name__in=[tag]).distinct()
-
-    def live_by_tag(self, tag):
-        return self.model.objects.filter(tags__name__in=[tag], published=True).distinct()
-
-    def by_user(self, user):
-        try:
-            user_id = get_user_model().objects.get(username=user).id
-        except:
-            user_id = None
-        return self.model.objects.filter(author_id=user_id)
-
-    def live_by_user(self, user):
-        try:
-            user_id = get_user_model().objects.get(username=user).id
-        except:
-            user_id = None
-        return self.model.objects.filter(author_id=user_id, published=True)
+class AccountsUser(AbstractUser):
+    USERNAME_FIELD = 'username'  # name of field on the User that is used as the unique identfier.
+    activation_key = models.CharField(_('activation key'), max_length=40)
+    # Extra Profile Fields
+    is_subscribed = models.BooleanField(
+        _('subscribed'),
+        default=False,
+        help_text=_('Designates whether the user can is subscribed to the newsletter.')
+    )
+    ###########################################################################
+    # Note Django User has the following fields so dont Duplicate!
+    ###########################################################################
+    # id
+    # username
+    # first_name
+    # last_name
+    # email
+    # password
+    # is_staff
+    # is_active
+    # is_superuser
+    # last_login
+    # date_joined
+    ###########################################################################
+    # future
+    # bio = models.TextField()
+    # failed_login_attempts = models.PositiveIntegerField(default=0, editable=False)
+    # last_login_attempt_ip = models.CharField(default='', max_length=45, editable=False)
 
 
-class Example(models.Model):
-    """ Accounts Example Model. """
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
-    updated_at = models.DateTimeField(auto_now=True, editable=False)
-    updated_ago = models.CharField(blank=True, max_length=255)
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
-    # add our custom model manager
-    objects = ExampleManager()
 
-    def __unicode__(self):
-        return self.title
-
-    def timeAgo(self):
-        return toTimeAgo(relativedelta.relativedelta(datetime.datetime.now(), self.updated_at))
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ("django_accounts:detail", (), {"slug": self.slug})
-
-    def save(self, *args, **kwargs):
-        self.updated_ago = self.timeAgo()
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Example, self).save(*args, **kwargs)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)

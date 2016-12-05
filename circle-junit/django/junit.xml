@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="1" failures="1" name="pytest" skips="0" tests="20" time="4.466"><testcase classname="tests.test_api.EmailConfirmationTests" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_hmac" time="2.28452587128"><system-err>DEBUG send_confirmation_mail, 
+</system-err></testcase><testcase classname="tests.test_api.EmailConfirmationTests" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_hmac_confirmation_closed" time="0.0390520095825"><system-err>DEBUG send_confirmation_mail, 
+</system-err></testcase><testcase classname="tests.test_api.EmailConfirmationTests" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_hmac_fall_back" time="0.0202186107635"><system-err>DEBUG send_confirmation_mail, 
+</system-err></testcase><testcase classname="tests.test_api.EmailVerificationTests" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_verification_mandatory" time="0.0721988677979"><system-out>jjfkhshkj admin password12
+admin
+</system-out><system-err>DEBUG send_confirmation_mail, 
+WARNING gay
+</system-err></testcase><testcase classname="tests.test_api.EmailVerificationTests" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_verification_mandatory_get_verify_ok" time="0.0572903156281"><system-out>jjfkhshkj admin password12
+admin
+</system-out><system-err>DEBUG send_confirmation_mail, 
+WARNING gay
+</system-err></testcase><testcase classname="tests.test_api.EmailVerificationTests" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_verification_none" time="0.0601787567139"><system-out>jjfkhshkj admin password12
+admin
+</system-out></testcase><testcase classname="tests.test_api.EmailVerificationTests" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_verification_optional" time="0.0649569034576"><system-out>jjfkhshkj admin password12
+admin
+</system-out><system-err>DEBUG send_confirmation_mail, 
+</system-err></testcase><testcase classname="tests.test_api.TestRegistrations" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_registration_basic_registration_not_open" time="0.0124247074127"><system-out>tearDown
+</system-out></testcase><testcase classname="tests.test_api.TestRegistrations" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_registration_email_and_username_required" time="0.0886840820312"><system-out>tearDown
+</system-out><system-err>DEBUG send_confirmation_mail, 
+WARNING gay
+</system-err></testcase><testcase classname="tests.test_api.TestRegistrations" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_registration_email_doesnt_need_to_be_unique" time="0.0463218688965"><system-out>tearDown
+</system-out><system-err>DEBUG send_confirmation_mail, 
+WARNING gay
+DEBUG send_confirmation_mail, 
+WARNING gay
+</system-err></testcase><testcase classname="tests.test_api.TestRegistrations" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_registration_email_needs_to_be_unique" time="0.0765340328217"><system-out>tearDown
+</system-out><system-err>DEBUG send_confirmation_mail, 
+WARNING gay
+</system-err></testcase><testcase classname="tests.test_api.TestRegistrations" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_registration_email_required" time="0.026515007019"><system-out>tearDown
+</system-out></testcase><testcase classname="tests.test_api.TestRegistrations" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_registration_email_required_username_not_required" time="0.0478758811951"><system-out>tearDown
+</system-out><system-err>DEBUG send_confirmation_mail, 
+WARNING gay
+</system-err></testcase><testcase classname="tests.test_api.TestRegistrations" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_registration_email_verification_neccessary_verified_login_username" time="0.0420861244202"><failure message="IndexError: list index out of range">args = (&lt;tests.test_api.TestRegistrations testMethod=test_registration_email_verification_neccessary_verified_login_username&gt;,), kwargs = {}
+
+    @wraps(test_func)
+    def inner(*args, **kwargs):
+        with self:
+&gt;           return test_func(*args, **kwargs)
+
+/Library/Python/2.7/site-packages/django/test/utils.py:196: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_api.py:496: in test_registration_email_verification_neccessary_verified_login_username
+    self.common_registration_email_verification_neccessary_verified_login_get({&apos;username&apos;: &apos;admin&apos;, &apos;password&apos;: &apos;password12&apos;})
+tests/test_api.py:480: in common_registration_email_verification_neccessary_verified_login_get
+    ).emailconfirmation_set.order_by(&apos;-created&apos;)[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = [], k = 0
+
+    def __getitem__(self, k):
+        &quot;&quot;&quot;
+            Retrieves an item or slice from the set of results.
+            &quot;&quot;&quot;
+        if not isinstance(k, (slice,) + six.integer_types):
+            raise TypeError
+        assert ((not isinstance(k, slice) and (k &gt;= 0)) or
+                (isinstance(k, slice) and (k.start is None or k.start &gt;= 0) and
+                 (k.stop is None or k.stop &gt;= 0))), \
+            &quot;Negative indexing is not supported.&quot;
+    
+        if self._result_cache is not None:
+            return self._result_cache[k]
+    
+        if isinstance(k, slice):
+            qs = self._clone()
+            if k.start is not None:
+                start = int(k.start)
+            else:
+                start = None
+            if k.stop is not None:
+                stop = int(k.stop)
+            else:
+                stop = None
+            qs.query.set_limits(start, stop)
+            return list(qs)[::k.step] if k.step else qs
+    
+        qs = self._clone()
+        qs.query.set_limits(k, k + 1)
+&gt;       return list(qs)[0]
+E       IndexError: list index out of range
+
+/Library/Python/2.7/site-packages/django/db/models/query.py:201: IndexError</failure><system-out>jjfkhshkj admin password12
+admin
+tearDown
+</system-out><system-err>DEBUG send_confirmation_mail, 
+WARNING gay
+</system-err></testcase><testcase classname="tests.test_api.TestRegistrations" file="tests/test_api.py" line="447" name="test_registration_normal_use_email_doesnt_need_to_be_unique_when_registering" time="0.117356777191"><system-out>tearDown
+</system-out><system-err>DEBUG send_confirmation_mail, 
+WARNING gay
+DEBUG send_confirmation_mail, 
+WARNING gay
+</system-err></testcase><testcase classname="tests.test_api.TestRegistrations" file="tests/test_api.py" line="442" name="test_registration_normal_use_email_required_when_registering" time="0.0135231018066"><system-out>tearDown
+</system-out></testcase><testcase classname="tests.test_api.TestRegistrations" file="tests/test_api.py" line="437" name="test_registration_normal_use_username_required_when_registering" time="0.0208508968353"><system-out>tearDown
+</system-out></testcase><testcase classname="tests.test_api.TestRegistrations" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_registration_username_required" time="0.0255882740021"><system-out>tearDown
+</system-out></testcase><testcase classname="tests.test_api.TestRegistrations" file="../../../../../../Library/Python/2.7/site-packages/django/test/utils.py" line="192" name="test_registration_username_required_email_not_required" time="0.0890681743622"><system-out>tearDown
+</system-out><system-err>WARNING gay
+</system-err></testcase><testcase classname="pytest" name="internal" time="0"><error message="internal error">Traceback (most recent call last):
+  File &quot;/Library/Python/2.7/site-packages/_pytest/main.py&quot;, line 96, in wrap_session
+    session.exitstatus = doit(config, session) or 0
+  File &quot;/Library/Python/2.7/site-packages/_pytest/main.py&quot;, line 131, in _main
+    config.hook.pytest_runtestloop(session=session)
+  File &quot;/Library/Python/2.7/site-packages/_pytest/vendored_packages/pluggy.py&quot;, line 724, in __call__
+    return self._hookexec(self, self._nonwrappers + self._wrappers, kwargs)
+  File &quot;/Library/Python/2.7/site-packages/_pytest/vendored_packages/pluggy.py&quot;, line 338, in _hookexec
+    return self._inner_hookexec(hook, methods, kwargs)
+  File &quot;/Library/Python/2.7/site-packages/_pytest/vendored_packages/pluggy.py&quot;, line 333, in &lt;lambda&gt;
+    _MultiCall(methods, kwargs, hook.spec_opts).execute()
+  File &quot;/Library/Python/2.7/site-packages/_pytest/vendored_packages/pluggy.py&quot;, line 595, in execute
+    return _wrapped_call(hook_impl.function(*args), self.execute)
+  File &quot;/Library/Python/2.7/site-packages/_pytest/vendored_packages/pluggy.py&quot;, line 249, in _wrapped_call
+    wrap_controller.send(call_outcome)
+  File &quot;/Library/Python/2.7/site-packages/pytest_cov/plugin.py&quot;, line 232, in pytest_runtestloop
+    self.cov_controller.finish()
+  File &quot;/Library/Python/2.7/site-packages/pytest_cov/engine.py&quot;, line 111, in summary
+    total = self.cov.html_report(ignore_errors=True, directory=self.cov_report[&apos;html&apos;])
+  File &quot;/Library/Python/2.7/site-packages/coverage/control.py&quot;, line 1033, in html_report
+    return reporter.report(morfs)
+  File &quot;/Library/Python/2.7/site-packages/coverage/html.py&quot;, line 120, in report
+    assert self.config.html_dir, &quot;must give a directory for html reporting&quot;
+AssertionError: must give a directory for html reporting</error></testcase></testsuite>

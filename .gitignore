@@ -1,0 +1,17 @@
+# Byte-compiled / optimized / DLL files
+.cache/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.installed.cfg
+*.egg
+build/
+dist/
+.coverage
+cover/
+pylint.out
+app.log*
+
+# Ignore built doc folders
+docs/build/

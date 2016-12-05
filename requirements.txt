@@ -4,6 +4,7 @@ python-dateutil
 markdown2
 beautifulsoup4
 Pygments
+django-allauth==0.29.0
 
 
 # Django test supports
@@ -14,9 +15,10 @@ django_nose
 pytest
 pytest-django
 pytest-xdist
-pytest-coverage
+pytest-cov
 nose-progressive
 responses>=0.4.0
+git+git://github.com/spulec/freezegun
 
 
 # Django docs supports
