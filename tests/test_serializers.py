@@ -22,8 +22,8 @@ from django.conf import settings
 
 
 # Temporary check - we only tests username authentication at the moment
-if settings.ACCOUNT_AUTHENTICATION_METHOD != app_settings.AuthenticationMethod.USERNAME:
-    raise NotImplementedError('Tests only support ACCOUNT_AUTHENTICATION_METHOD = "username"')
+#if settings.ACCOUNT_AUTHENTICATION_METHOD != app_settings.AuthenticationMethod.USERNAME:
+#    raise NotImplementedError('Tests only support ACCOUNT_AUTHENTICATION_METHOD = "username"')
 
 
 class LoginSerializerTests (TestCase):
