@@ -17,7 +17,7 @@ test:
       # Run Django Tests
       # Need to save junit results inside app within docker container then copy to CIRCLE_TEST_REPORTS
       - mkdir -p circle-junit/django
-      - cd django-accounts && py.test --cov --cov-report html:$CIRCLE_TEST_REPORTS --junitxml=circle-junit/django/junit.xml tests/
+      - py.test --cov --cov-report html:$CIRCLE_TEST_REPORTS --junitxml=circle-junit/django/junit.xml tests/
       - mkdir -p $CIRCLE_TEST_REPORTS/django
       - mv circle-junit/django $CIRCLE_TEST_REPORTS/
       - cd docs && make html coverage
