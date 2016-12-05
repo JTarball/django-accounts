@@ -1,6 +1,7 @@
 [run]
 omit =
     tests/*
+    /home/ubuntu/virtualenvs/venv-system/lib/python2.7/site-packages/_pytest/*
 
 [report]
 exclude_lines =
