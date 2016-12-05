@@ -39,6 +39,7 @@ Django Test Requirements
 
 - responses>=0.4.0
 
+- freezegun
 
 Django Docs Requirements
 -----------------------

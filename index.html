@@ -121,7 +121,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -138,8 +138,19 @@
 </div>
 <div class="section" id="django-accounts">
 <h1>django-accounts<a class="headerlink" href="#django-accounts" title="Permalink to this headline">¶</a></h1>
-<p>A basic app perfect for something.</p>
+<p>Powered by django-allauth (<a class="reference external" href="http://www.intenct.nl/projects/django-allauth/">http://www.intenct.nl/projects/django-allauth/</a>) &amp; includes a modified version of django-rest-auth (<a class="reference external" href="https://github.com/Tivix/django-rest-auth">https://github.com/Tivix/django-rest-auth</a>)</p>
+<p>A basic app that deals with everything to do with front-end users include registration / activation / admin / user preferences.</p>
+<ul class="simple">
+<li>registration
+- - deals with user registration &amp; activation</li>
+<li>user details
+- - user preferences / accounts profiles / definition of accounts Model (User &#8211; settings.AUTH_USER_MODEL)</li>
+</ul>
+<div class="section" id="built-in-django-admin">
+<h2>Built-in Django Admin?<a class="headerlink" href="#built-in-django-admin" title="Permalink to this headline">¶</a></h2>
+<p>The &#8216;normal&#8217; django admin is for maintenance (super admin) only and will not be visible for users</p>
 <p>The documentation can be found at (once deployed): <a class="reference external" href="https://JTarball.github.io/django-accounts/">https://JTarball.github.io/django-accounts/</a></p>
+</div>
 </div>
 <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
@@ -163,9 +174,10 @@ you up and running:</p>
 </pre></div>
 </div>
 <p>urls.py</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">accounts</span> <span class="kn">import</span> <span class="n">urls</span> <span class="k">as</span> <span class="n">urls_accounts</span>
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">...</span>
-    <span class="n">url</span><span class="p">(</span><span class="s1">r&#39;^accounts/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;allauth.urls&#39;</span><span class="p">)),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s1">r&#39;^{{ cookiecutter.app_name }}/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">urls_accounts</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="s2">&quot;accounts&quot;</span><span class="p">)),</span>
     <span class="o">...</span>
 <span class="p">]</span>
 </pre></div>
@@ -178,6 +190,41 @@ you up and running:</p>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="how-to-use">
+<h1>How to Use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="register-with-post-message">
+<h2>Register with POST message<a class="headerlink" href="#register-with-post-message" title="Permalink to this headline">¶</a></h2>
+<p>POST - /accounts/registration/
+{
+&#8220;username&#8221;: &#8220;james.tarball&#8221;,
+&#8220;email&#8221;: &#8220;<a class="reference external" href="mailto:danvir&#46;guram&#37;&#52;&#48;googlemail&#46;com">danvir<span>&#46;</span>guram<span>&#64;</span>googlemail<span>&#46;</span>com</a>&#8221;,
+&#8220;password1&#8221;: &#8220;mirage27&#8221;,
+&#8220;password2&#8221;: &#8220;mirage27&#8221;
+}</p>
+</div>
+<div class="section" id="receive-key">
+<h2>Receive key<a class="headerlink" href="#receive-key" title="Permalink to this headline">¶</a></h2>
+<p>HTTP 201 Created
+Allow: POST, OPTIONS, HEAD
+Content-Type: application/json
+Vary: Accept</p>
+<dl class="docutils">
+<dt>{</dt>
+<dd>&#8220;key&#8221;: &#8220;d66914f69aee700c42e50317c2079dad1b073a31&#8221;</dd>
+</dl>
+<p>}</p>
+</div>
+</div>
+<div class="section" id="todo-future-work">
+<h1>ToDo / Future Work<a class="headerlink" href="#todo-future-work" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>CONFIGURATION FOR ACTIVATION URL VIA SETTING??? (LOOK AT ADAPTER)</li>
+<li>Emails via mailchimp</li>
+<li>Increase Complexity / Thorough testing of validators in serializers</li>
+<li>More social login interaction</li>
+<li>Improved Stats &amp; Logs</li>
+</ul>
 </div>
 <div class="section" id="contents">
 <h1>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h1>
