@@ -978,3 +978,24 @@ class TestNormalUseCases(APITestCase):
     #     self.assertEquals(response.status_code, status_code, response.data)
     #     if response_content is not None:
     #         self.assertEquals(response.content, response_content)
+
+    def test_integration_signup(
+        self, password_data, http_method, status_code,
+        uid=None, token_user=None,
+        response_content=None,
+        check_login_status_code=None, check_login_response=None,
+    ):
+    pass
+
+
+    def test_integration_password_reset():
+        pass
+
+    def test_integration_password_change():
+        pass
+
+    def test_login_logout_get_set_user_details():
+        pass
+
+
+
