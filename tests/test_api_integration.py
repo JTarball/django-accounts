@@ -985,7 +985,7 @@ class TestNormalUseCases(APITestCase):
         response_content=None,
         check_login_status_code=None, check_login_response=None,
     ):
-    pass
+        pass
 
 
     def test_integration_password_reset():
