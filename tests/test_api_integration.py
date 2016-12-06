@@ -979,23 +979,53 @@ class TestNormalUseCases(APITestCase):
     #     if response_content is not None:
     #         self.assertEquals(response.content, response_content)
 
-    def test_integration_signup(
-        self, password_data, http_method, status_code,
-        uid=None, token_user=None,
-        response_content=None,
-        check_login_status_code=None, check_login_response=None,
-    ):
-        pass
+    #def test_integration_signup(
+    #    self, password_data, http_method, status_code,
+    #    uid=None, token_user=None,
+    #    response_content=None,
+    #    check_login_status_code=None, check_login_response=None,
+    #):
+    #    pass
+
+    #def test_integration_password_reset():
+    #    pass
+
+    def test_integration_password_change(self):
+        response = self.client.post(
+                self.login_url,
+                {'username': self.USERNAME, 'password': self.PASSWORD},
+                format='json'
+            )
+        self.assertEquals(response.status_code, status.HTTP_200_OK, response.data)
+
+        response = self.client.post(
+            self.password_change_url,
+            {'password1': 'new_password', 'password2': 'new_password'},
+            format='json'
+        )
+        self.assertEquals(response.status_code, status.HTTP_200_OK, response.data)
+
+        response = self.client.post(
+                self.login_url,
+                {'username': self.USERNAME, 'password': self.PASSWORD},
+                format='json'
+            )
+        self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST, response.data)
+        self.assertEquals(
+            response.content,
+            '{"non_field_errors":["Unable to log in with provided credentials."]}'
+        )
+
+        response = self.client.post(
+                self.login_url,
+                {'username': self.USERNAME, 'password': 'new_password'},
+                format='json'
+            )
+        self.assertEquals(response.status_code, status.HTTP_200_OK, response.data)
 
 
-    def test_integration_password_reset():
-        pass
-
-    def test_integration_password_change():
-        pass
-
-    def test_login_logout_get_set_user_details():
-        pass
+    #def test_login_logout_get_set_user_details():
+    #    pass
 
 
 
