@@ -26,7 +26,7 @@ from .serializers import (
 
 from . import app_settings
 
-logger = logging.getLogger('project_logger')
+logger = logging.getLogger(__name__)
 
 
 class LoginView(GenericAPIView):

@@ -46,7 +46,7 @@ from allauth.account import app_settings
 
 from django_accounts.utils import email_address_exists
 
-logger = logging.getLogger('test_logger')
+logger = logging.getLogger(__name__)
 
 
 class DefaultAccountAdapter(object):

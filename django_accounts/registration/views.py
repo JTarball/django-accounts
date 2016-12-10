@@ -27,7 +27,7 @@ from django_accounts.views import LoginView
 from django_accounts import app_settings as accounts_settings
 
 
-logger = logging.getLogger('project_logger')
+logger = logging.getLogger(__name__)
 
 
 class RegisterView(APIView, SignupView):

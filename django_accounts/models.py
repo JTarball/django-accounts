@@ -13,7 +13,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 # Get instance of logger
-logger = logging.getLogger('__name__')
+logger = logging.getLogger(__name__)
 
 
 class AccountsUser(AbstractUser):

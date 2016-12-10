@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+"""
+    django_accounts.registration.serializers
+    ========================================
+
+    Social registration serializers for django_accounts App
+
+"""
 from django.http import HttpRequest
 from django.conf import settings
 

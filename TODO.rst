@@ -12,3 +12,4 @@ ToDo / Future Work
 
 
 - Need to create a base class for the API - dry i.e. tests need refactoring so more DRY
+- test failed login attempts max

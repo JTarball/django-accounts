@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 """
     django_accounts.admin
-    ==========
+    =====================
 
-    Admin Functionality for Blog App
+    Admin Functionality for django_accounts App
 
 """
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from accounts.models import AccountsUser
-#from .forms import AccountsUserCreationForm, AccountsUserChangeForm
 
 
 class AccountsUserAdmin(UserAdmin):
