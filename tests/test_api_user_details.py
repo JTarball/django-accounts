@@ -7,12 +7,15 @@
 """
 from django_dynamic_fixture import G
 
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
 from django_accounts.models import AccountsUser
+
+from allauth.account.models import EmailAddress
 
 from utils import parameterise
 
@@ -170,8 +173,117 @@ class TestUserDetails(APITestCase):
             'response_content':  '{"username":"changed_username","email":"changed@email.com","first_name":"James","last_name":"Tarball"}'
         },
     ]
+    INTEGRATION_TESTS = [
+        {
+            'test_name': 'test_integration_normal_user_get_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'jtarball', 'password': 'password12'},
+            'http_method': 'GET',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"jtarball","email":"jtarball@example.com","first_name":"James","last_name":"Tarball"}'
+        },
+        {
+            'test_name': 'test_integration_normal_staff_user_get_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'admin', 'password': 'password12'},
+            'http_method': 'GET',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"admin","email":"admin@example.com","first_name":"James","last_name":"Tarball"}'
+        },
+        {
+            'test_name': 'test_integration_normal_superuser_get_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'superuser', 'password': 'password12'},
+            'http_method': 'GET',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"superuser","email":"superuser@email.com","first_name":"James","last_name":"Tarball"}'
+        },
+        {
+            'test_name': 'test_integration_normal_superuser_not_staff_get_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'superuser_not_staff', 'password': 'password12'},
+            'http_method': 'GET',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"superuser_not_staff","email":"superuser_not_staff@email.com","first_name":"James","last_name":"Tarball"}'
+        },
+        {
+            'test_name': 'test_integration_normal_user_put_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'jtarball', 'password': 'password12'},
+            'user_url_data': {"username": "changed", "email": "changed@email.com", "first_name": "changed", "last_name": "name"},
+            'http_method': 'PUT',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"changed","email":"changed@email.com","first_name":"changed","last_name":"name"}'
+        },
+        {
+            'test_name': 'test_integration_normal_staff_user_put_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'admin', 'password': 'password12'},
+            'user_url_data': {"username": "changed", "email": "changed@email.com", "first_name": "changed", "last_name": "name"},
+            'http_method': 'PUT',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"changed","email":"changed@email.com","first_name":"changed","last_name":"name"}'
+        },
+        {
+            'test_name': 'test_integration_normal_superuser_put_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'superuser', 'password': 'password12'},
+            'user_url_data': {"username": "changed", "email": "changed@email.com", "first_name": "changed", "last_name": "name"},
+            'http_method': 'PUT',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"changed","email":"changed@email.com","first_name":"changed","last_name":"name"}'
+        },
+        {
+            'test_name': 'test_integration_normal_superuser_not_staff_put_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'superuser_not_staff', 'password': 'password12'},
+            'user_url_data': {"username": "changed", "email": "changed@email.com", "first_name": "changed", "last_name": "name"},
+            'http_method': 'PUT',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"changed","email":"changed@email.com","first_name":"changed","last_name":"name"}'
+        },
+        {
+            'test_name': 'test_integration_normal_user_patch_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'jtarball', 'password': 'password12'},
+            'user_url_data': {"username": "changed", "email": "changed@email.com", "first_name": "changed", "last_name": "name"},
+            'http_method': 'PATCH',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"changed","email":"changed@email.com","first_name":"changed","last_name":"name"}'
+        },
+        {
+            'test_name': 'test_integration_normal_staff_user_patch_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'admin', 'password': 'password12'},
+            'user_url_data': {"username": "changed", "email": "changed@email.com", "first_name": "changed", "last_name": "name"},
+            'http_method': 'PATCH',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"changed","email":"changed@email.com","first_name":"changed","last_name":"name"}'
+        },
+        {
+            'test_name': 'test_integration_normal_superuser_patch_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'superuser', 'password': 'password12'},
+            'user_url_data': {"username": "changed", "email": "changed@email.com", "first_name": "changed", "last_name": "name"},
+            'http_method': 'PATCH',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"changed","email":"changed@email.com","first_name":"changed","last_name":"name"}'
+        },
+        {
+            'test_name': 'test_integration_normal_superuser_not_staff_patch_user_details',
+            'test_description': 'Tests post of user details fail if not logged in',
+            'data': {'username': 'superuser_not_staff', 'password': 'password12'},
+            'user_url_data': {"username": "changed", "email": "changed@email.com", "first_name": "changed", "last_name": "name"},
+            'http_method': 'PATCH',
+            'status_code': status.HTTP_200_OK,
+            'response_content': '{"username":"changed","email":"changed@email.com","first_name":"changed","last_name":"name"}'
+        },
+    ]
 
     def setUp(self):
+        # More information on asserts
+        self.longMessage = True
+
         self.client = APIClient()
         self.user_url = reverse('accounts:rest_user_details')
         self.login_url = reverse('accounts:rest_login')
@@ -194,7 +306,7 @@ class TestUserDetails(APITestCase):
             'password': self.password,
             'email': self.email,
             'first_name': self.first_name,
-            'last_name': self.last_name
+            'last_name': self.last_name,
         }
         self.staff_data = {
             'username': self.staff_username,
@@ -220,10 +332,9 @@ class TestUserDetails(APITestCase):
             'last_name': self.last_name
         }
 
-        self.user = G(AccountsUser, is_superuser=False, is_staff=False, **self.user_data)
-        self.staff = G(AccountsUser, is_superuser=False, is_staff=True, **self.staff_data)
-        self.superuser = G(AccountsUser, is_superuser=True, is_staff=True, **self.superuser_data)
-        self.superuser_not_staff = G(AccountsUser, is_superuser=True, is_staff=False, **self.superuser_not_staff_data)
+        #self.staff = G(AccountsUser, is_superuser=False, is_staff=True, **self.staff_data)
+        #self.superuser = G(AccountsUser, is_superuser=True, is_staff=True, **self.superuser_data)
+        #self.superuser_not_staff = G(AccountsUser, is_superuser=True, is_staff=False, **self.superuser_not_staff_data)
 
         self.update_data = {
             "username": "changed",
@@ -237,6 +348,11 @@ class TestUserDetails(APITestCase):
             "email": "changed@email.com"
         }
 
+        self._create_verified_user()
+        self.staff = self._create_verified_staff_user()
+        self.superuser = self._create_verified_superuser()
+        self.superuser_not_staff = self._create_verified_superuser_not_staff()
+
         self.MAP_USER = {
             None: None,
             'user': self.user,
@@ -247,6 +363,66 @@ class TestUserDetails(APITestCase):
 
     def cleanUp(self):
         self.client.logout()
+
+    def _create_verified_user(self):
+        user = get_user_model().objects.create_user(**self.user_data)
+        self.user = user
+        self.email_object = EmailAddress.objects.create(
+            user=self.user,
+            email=self.email,
+            verified=True,
+            primary=True
+        )
+        return self.user
+
+    def _create_verified_staff_user(self):
+        user = get_user_model().objects.create_user(**self.staff_data)
+        user.is_staff = True
+        user.save()
+        self.email_object = EmailAddress.objects.create(
+            user=user,
+            email=self.staff_email,
+            verified=True,
+            primary=True
+        )
+        return user
+
+    def _create_verified_superuser(self):
+        user = get_user_model().objects.create_superuser(**self.superuser_data)
+        self.email_object = EmailAddress.objects.create(
+            user=user,
+            email=self.superuser_email,
+            verified=True,
+            primary=True
+        )
+        return user
+
+    def _create_verified_superuser_not_staff(self):
+        user = get_user_model().objects.create_superuser(**self.superuser_not_staff_data)
+        user.is_staff = False
+        user.save()
+        self.email_object = EmailAddress.objects.create(
+            user=user,
+            email=self.superuser_not_staff_email,
+            verified=True,
+            primary=True
+        )
+        return user
+
+    def _client_method(self, url, http_method, data=None):
+        if http_method == 'GET':
+            response = self.client.get(url, format='json')
+        elif http_method == 'POST':
+            response = self.client.post(url, data, format='json')
+        elif http_method == 'PUT':
+            response = self.client.put(url, data, format='json')
+        elif http_method == 'PATCH':
+            response = self.client.patch(url, data, format='json')
+        elif http_method == 'DELETE':
+            response = self.client.delete(url, format='json')
+        else:
+            raise Exception('invalid http_method: %s' % http_method)
+        return response
 
     @parameterise.testcase_method(GET_TESTS)
     def test_get_user_details(self, authentication, status_code, response_content):
@@ -267,15 +443,52 @@ class TestUserDetails(APITestCase):
     @parameterise.testcase_method(PUT_TESTS)
     def test_put_user_details(self, authentication, status_code, response_content):
         """ Test to put update user details. """
+        users_count = get_user_model().objects.count()
         self.client.force_authenticate(user=self.MAP_USER[authentication])
         response = self.client.put(self.user_url, self.update_data, format='json')
         self.assertEquals(response.status_code, status_code)
         self.assertEquals(response.content, response_content)
+        self.assertEquals(
+            users_count,
+            get_user_model().objects.count(),
+            "The PUT command should update a previous user's details not insert a new user."
+        )
 
     @parameterise.testcase_method(PATCH_TESTS)
     def test_patch_user_details(self, authentication, status_code, response_content):
         """ Test to patch update user details. """
+        users_count = get_user_model().objects.count()
         self.client.force_authenticate(user=self.MAP_USER[authentication])
         response = self.client.patch(self.user_url, self.partial_update_data, format='json')
         self.assertEquals(response.status_code, status_code)
         self.assertEquals(response.content, response_content)
+        self.assertEquals(
+            users_count,
+            get_user_model().objects.count(),
+            "The PATCH command should update a previous user's details not insert a new user."
+        )
+
+    @parameterise.testcase_method(INTEGRATION_TESTS)
+    def test_integration_user_details(self, data, http_method, status_code, response_content, user_url_data=None):
+
+        response = self.client.post(
+                self.login_url,
+                data,
+                format='json'
+            )
+        self.assertEquals(response.status_code, status.HTTP_200_OK, response.data)
+
+        response = self._client_method(self.user_url, http_method, user_url_data)
+        self.assertEquals(response.status_code, status_code, response.data)
+        self.assertEquals(response.content, response_content)
+
+        # Logout and check you cannot get user details
+        response = self.client.post(self.logout_url, format='json')
+        self.assertEquals(response.status_code, status.HTTP_200_OK, response.data)
+
+        response = self.client.post(self.user_url, format='json')
+        self.assertEquals(response.status_code, status.HTTP_403_FORBIDDEN, response.data)
+        self.assertEquals(
+            response.content,
+            '{"detail":"Authentication credentials were not provided."}'
+        )

@@ -5,6 +5,8 @@
     Tests the REST API calls for normal use case
 
 """
+import re
+
 from django_dynamic_fixture import G
 
 from django.utils.encoding import force_bytes
@@ -17,6 +19,7 @@ from django.utils.http import urlsafe_base64_encode
 
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
+from allauth.account.utils import user_pk_to_url_str
 from allauth.account.models import EmailAddress, EmailConfirmationHMAC
 
 from django_accounts.models import AccountsUser
@@ -601,7 +604,7 @@ class TestNormalUseCases(APITestCase):
             'test_name': 'test_password_reset_confirm_fails_uid_wrong_user',
             'test_description': 'Tests basic password reset confirmation',
             'http_method': 'POST',
-            'uid': urlsafe_base64_encode(force_bytes(10)),
+            'uid': 10,
             'password_data': {'password1': 'new_password', 'password2': 'new_password'},
             'status_code': status.HTTP_400_BAD_REQUEST,
             'response_content': '{"uid":["Invalid value"]}'
@@ -799,7 +802,8 @@ class TestNormalUseCases(APITestCase):
             result['uid'] = int_to_base36(user.pk)
         else:
             from django.utils.http import urlsafe_base64_encode
-            result['uid'] = urlsafe_base64_encode(force_bytes(user.pk))
+            #result['uid'] = urlsafe_base64_encode(force_bytes(user.pk))
+        result['uid'] = user_pk_to_url_str(user)
         result['token'] = default_token_generator.make_token(user)
         return result
 
@@ -987,8 +991,69 @@ class TestNormalUseCases(APITestCase):
     #):
     #    pass
 
-    #def test_integration_password_reset():
-    #    pass
+    def test_integration_password_reset(self):
+        response = self.client.post(
+            self.password_reset_url,
+            {'email': self.EMAIL},
+            format='json'
+        )
+        self.assertEquals(response.status_code, status.HTTP_200_OK, response.data)
+        self.assertEquals(
+            response.content,
+            '{"success":"Password reset e-mail has been sent."}'
+        )
+
+        # Take the email - extract the url <uid>-<token>
+        # It is expected that the page to change the password will add uid, token
+        # to the form ready for the password reset POST confirmation
+        email = mail.outbox.pop()
+        self.assertEquals(email.to, [u'jtarball@example.com'])
+        print email.body
+        uid_token = re.search(
+            r"account\/password\/reset\/key\/(?P<uid>[0-9A-Za-z]+)-(?P<token>.+)/",
+            email.body
+        )
+        uid = uid_token.groupdict()['uid']
+        token = uid_token.groupdict()['token']
+
+        print uid, token
+
+        print get_user_model()._default_manager.get(pk=uid)
+
+        response = self.client.post(
+            self.password_reset_confirm_url,
+            {
+                'uid': uid,
+                'token': token,
+                'password1': 'new_password_reset',
+                'password2': 'new_password_reset',
+            }
+        )
+        self.assertEquals(response.status_code, status.HTTP_200_OK, response.data)
+        self.assertEquals(
+            response.content,
+            '{"success":"Password has been reset with the new password."}'
+        )
+
+        # Check login
+        # Should fail with old password and pass with new password
+        response = self.client.post(
+                self.login_url,
+                {'username': self.USERNAME, 'password': self.PASSWORD},
+                format='json'
+            )
+        self.assertEquals(response.status_code, status.HTTP_400_BAD_REQUEST, response.data)
+        self.assertEquals(
+            response.content,
+            '{"non_field_errors":["Unable to log in with provided credentials."]}'
+        )
+
+        response = self.client.post(
+                self.login_url,
+                {'username': self.USERNAME, 'password': 'new_password_reset'},
+                format='json'
+            )
+        self.assertEquals(response.status_code, status.HTTP_200_OK, response.data)
 
     def test_integration_password_change(self):
         response = self.client.post(
@@ -1022,10 +1087,6 @@ class TestNormalUseCases(APITestCase):
                 format='json'
             )
         self.assertEquals(response.status_code, status.HTTP_200_OK, response.data)
-
-
-    #def test_login_logout_get_set_user_details():
-    #    pass
 
 
 

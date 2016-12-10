@@ -8,3 +8,7 @@ ToDo / Future Work
 - you need to review all the tests ! ok
 
 - finish integration tests
+- does the token have an expiration for password reset
+
+
+- Need to create a base class for the API - dry i.e. tests need refactoring so more DRY

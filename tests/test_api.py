@@ -26,6 +26,7 @@ from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 from allauth.account import app_settings
+from allauth.account.utils import user_pk_to_url_str
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.providers.facebook.provider import GRAPH_API_URL
 from allauth.account.models import EmailAddress, EmailConfirmation, EmailConfirmationHMAC
@@ -491,12 +492,13 @@ class TestPasswordResets(APITestCase):
         from django.utils.encoding import force_bytes
         from django.contrib.auth.tokens import default_token_generator
         from django import VERSION
-        if VERSION[1] == 5:
-            from django.utils.http import int_to_base36
-            result['uid'] = int_to_base36(user.pk)
-        else:
-            from django.utils.http import urlsafe_base64_encode
-            result['uid'] = urlsafe_base64_encode(force_bytes(user.pk))
+        # if VERSION[1] == 5:
+        #     from django.utils.http import int_to_base36
+        #     result['uid'] = int_to_base36(user.pk)
+        # else:
+        #     from django.utils.http import urlsafe_base64_encode
+        #     result['uid'] = urlsafe_base64_encode(force_bytes(user.pk))
+        result['uid'] = user_pk_to_url_str(user)
         result['token'] = default_token_generator.make_token(user)
         return result
 

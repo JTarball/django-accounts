@@ -97,11 +97,11 @@ class UserDetailsView(RetrieveUpdateAPIView):
     """
     Returns User's details in JSON format.
 
-    Accepts the following GET parameters: token
-    Accepts the following POST parameters:
-        Required: token
-        Optional: email, first_name, last_name and UserProfile fields
-    Returns the updated UserProfile and/or User object.
+    Accepts GET, PUT, PATCH methods.
+    Default accepted fields: username, first_name, last_name
+    Default display fields: pk, username, email, first_name, last_name
+    Read-only fields: pk
+
     """
     serializer_class = UserDetailsSerializer
     permission_classes = (IsAuthenticated,)

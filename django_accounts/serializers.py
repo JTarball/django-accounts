@@ -158,7 +158,7 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         UserModel = get_user_model()
         # Decode the uidb64 to uid to get User object
         try:
-            uid = uid_decoder(attrs['uid'])
+            uid = attrs['uid']
             self.user = UserModel._default_manager.get(pk=uid)
         except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
             raise ValidationError({'uid': ['Invalid value']})
