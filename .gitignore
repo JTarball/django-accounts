@@ -15,3 +15,5 @@ app.log*
 
 # Ignore built doc folders
 docs/build/
+# Ignore circleci / django test junit files
+circle-junit/
