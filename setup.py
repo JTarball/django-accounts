@@ -12,7 +12,7 @@ setup(
     author_email="james.tarball@gmail.com",
     url="https://github.com/JTarball/django-accounts",
     license="MIT license",
-    packages=["django_accounts"],
+    packages=["django_accounts", "django_accounts.registration"],
     zip_safe=False,
     include_package_data=True,
     classifiers=[
