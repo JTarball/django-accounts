@@ -5,7 +5,7 @@
 
     Accounts adapter
 
-    Djrill support
+    Djrill email support
 
 """
 from __future__ import unicode_literals

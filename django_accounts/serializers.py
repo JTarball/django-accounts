@@ -122,10 +122,10 @@ class PasswordResetSerializer(serializers.Serializer):
 
     def __init__(self, *args, **kwargs):
         super(PasswordResetSerializer, self).__init__(self, *args, **kwargs)
-        self.reset_form = self.password_reset_form_class(data=self.initial_data)
 
     def validate_email(self, value):
         print "validate_email"
+        self.reset_form = self.password_reset_form_class(data=self.initial_data)
         # Create PasswordResetForm with the serializer
         if not self.reset_form.is_valid():
             raise serializers.ValidationError('Validation Error %s' %  dict(self.reset_form.errors.items()))

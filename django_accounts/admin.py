@@ -9,7 +9,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from accounts.models import AccountsUser
+from django_accounts.models import AccountsUser
 
 
 class AccountsUserAdmin(UserAdmin):
