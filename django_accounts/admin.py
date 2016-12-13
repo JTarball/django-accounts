@@ -21,17 +21,23 @@ class AccountsUserAdmin(UserAdmin):
     search_fields = ('email', 'username')
     ordering = ('email',)
     filter_horizontal = ('groups', 'user_permissions',)
-    #fieldsets = (
+
+    # fieldsets = (
     #  (None, {'fields': ('email', 'password')}),
     #  ('Personal info', {'fields': ('first_name', 'last_name')}),
     #  ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups.', 'user_permissions')}),
     #  ('Important dates', {'fields': ('last_login',)}),
-    #)
-    #add_fieldsets = (
-    #  (None, {
-    #      'classes': ('wide',),
-    #      'fields': ('email', 'password1', 'password2')}
-    #),)
+    # )
+    # Fields for adding a new user form in admin
+    add_fieldsets = (
+        (
+            None,
+            {
+                'classes': ('wide',),
+                'fields': ('username', 'email', 'password1', 'password2')
+            }
+        ),
+    )
 
 # Register the user forms to django admin for super-duper editing
 admin.site.register(AccountsUser, AccountsUserAdmin)

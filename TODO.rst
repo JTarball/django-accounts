@@ -13,3 +13,11 @@ ToDo / Future Work
 
 - Need to create a base class for the API - dry i.e. tests need refactoring so more DRY
 - test failed login attempts max
+- evaluate, review and change modify and update adaptor.py
+- tests for adapter stuff
+
+
+- check email of signup
+
+
+ADD url(r'^account/', include('allauth.urls')), AS A REQUIREMENT 

@@ -7,6 +7,7 @@
 
 """
 from django.conf.urls import patterns, url
+from django.views.generic import TemplateView
 
 from .views import RegisterView, VerifyEmailView
 
@@ -30,6 +31,11 @@ urlpatterns = patterns(
     # view from:
     # from allauth.account.views import ConfirmEmailView
     # djang-allauth https://github.com/pennersr/django-allauth/blob/master/allauth/account/views.py#L190
-    #url(r'^account-confirm-email/(?P<key>\w+)/$', ConfirmEmailView.as_view(),
+    # url(r'^account-confirm-email/(?P<key>\w+)/$', ConfirmEmailView.as_view(),
     #    name='account_confirm_email'),
+
+    # This URL will need to sort out by the frontend client
+    # the frontend will need GET or POST to rest_verify_email
+    url(r'^account-confirm-email/(?P<key>[-:\w]+)/$', TemplateView.as_view(),
+        name='account_confirm_email'),
 )

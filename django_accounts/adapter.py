@@ -283,6 +283,7 @@ class DefaultAccountAdapter(object):
         else:
             user.set_unusable_password()
         self.populate_username(request, user)
+        user.from_rest_api = True
         if commit:
             # Ability not to commit makes it easier to derive from
             # this adapter by adding
